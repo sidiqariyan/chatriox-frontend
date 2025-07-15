@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { useAuth } from '../contexts/AuthContext'
-import { dbHelpers } from '../lib/supabase'
 import { 
   Mail, 
   MessageCircle, 
@@ -15,37 +13,38 @@ import {
   Bell,
   Plus
 } from 'lucide-react'
-import toast from 'react-hot-toast'
 
 interface DashboardProps {
   isDarkMode: boolean
 }
 
 const Dashboard: React.FC<DashboardProps> = ({ isDarkMode }) => {
-  const { user, signOut } = useAuth()
   const [userProfile, setUserProfile] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    if (user) {
-      loadUserProfile()
-    }
-  }, [user])
-
-  const loadUserProfile = async () => {
-    try {
-      const { data, error } = await dbHelpers.getUserProfile(user!.id)
-      if (error) throw error
-      setUserProfile(data)
-    } catch (error: any) {
-      console.error('Error loading profile:', error)
-    } finally {
-      setLoading(false)
+  // Mock user data
+  const mockUser = {
+    email: 'user@example.com',
+    user_metadata: {
+      full_name: 'John Doe',
+      first_name: 'John',
+      avatar_url: null
     }
   }
 
-  const handleSignOut = async () => {
-    await signOut()
+  useEffect(() => {
+    // Simulate loading user profile
+    setTimeout(() => {
+      setUserProfile({
+        name: 'John Doe',
+        email: 'user@example.com'
+      })
+      setLoading(false)
+    }, 1000)
+  }, [])
+
+  const handleSignOut = () => {
+    alert('Sign out clicked - implement your logout logic here')
   }
 
   const stats = [
@@ -150,14 +149,14 @@ const Dashboard: React.FC<DashboardProps> = ({ isDarkMode }) => {
               
               <div className="flex items-center space-x-3">
                 <img
-                  src={user?.user_metadata?.avatar_url || `https://ui-avatars.com/api/?name=${user?.email}&background=3b82f6&color=fff`}
+                  src={mockUser?.user_metadata?.avatar_url || `https://ui-avatars.com/api/?name=${mockUser?.email}&background=3b82f6&color=fff`}
                   alt="Profile"
                   className="w-8 h-8 rounded-full"
                 />
                 <span className={`font-medium ${
                   isDarkMode ? 'text-white' : 'text-gray-900'
                 }`}>
-                  {user?.user_metadata?.full_name || user?.email}
+                  {mockUser?.user_metadata?.full_name || mockUser?.email}
                 </span>
               </div>
 
@@ -183,7 +182,7 @@ const Dashboard: React.FC<DashboardProps> = ({ isDarkMode }) => {
           <h1 className={`text-3xl font-bold ${
             isDarkMode ? 'text-white' : 'text-gray-900'
           }`}>
-            Welcome back, {user?.user_metadata?.first_name || 'User'}!
+            Welcome back, {mockUser?.user_metadata?.first_name || 'User'}!
           </h1>
           <p className={`text-lg mt-2 ${
             isDarkMode ? 'text-gray-400' : 'text-gray-600'
@@ -250,6 +249,7 @@ const Dashboard: React.FC<DashboardProps> = ({ isDarkMode }) => {
               ].map((action, index) => (
                 <button
                   key={index}
+                  onClick={() => alert(`${action.label} clicked - implement your logic here`)}
                   className={`p-4 rounded-xl border transition-all duration-300 hover:scale-105 text-center ${
                     isDarkMode 
                       ? 'bg-slate-700/50 border-slate-600 hover:bg-slate-700' 
@@ -322,11 +322,14 @@ const Dashboard: React.FC<DashboardProps> = ({ isDarkMode }) => {
             }`}>
               Campaign Performance
             </h2>
-            <button className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              isDarkMode 
-                ? 'bg-blue-600 text-white hover:bg-blue-700' 
-                : 'bg-blue-500 text-white hover:bg-blue-600'
-            }`}>
+            <button 
+              onClick={() => alert('View Details clicked - implement your logic here')}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                isDarkMode 
+                  ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                  : 'bg-blue-500 text-white hover:bg-blue-600'
+              }`}
+            >
               View Details
             </button>
           </div>

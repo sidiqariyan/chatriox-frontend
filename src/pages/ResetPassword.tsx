@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Lock, ArrowLeft } from 'lucide-react'
-import { supabase } from '../lib/supabase'
-import toast from 'react-hot-toast'
 
 interface ResetPasswordProps {
   isDarkMode: boolean
@@ -18,31 +16,23 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ isDarkMode }) => {
     e.preventDefault()
     
     if (password !== confirmPassword) {
-      toast.error('Passwords do not match')
+      alert('Passwords do not match')
       return
     }
 
     if (password.length < 6) {
-      toast.error('Password must be at least 6 characters')
+      alert('Password must be at least 6 characters')
       return
     }
 
     setLoading(true)
     
-    try {
-      const { error } = await supabase.auth.updateUser({
-        password: password
-      })
-
-      if (error) throw error
-
-      toast.success('Password updated successfully!')
-      navigate('/dashboard')
-    } catch (error: any) {
-      toast.error(error.message)
-    } finally {
+    // Simulate loading state
+    setTimeout(() => {
       setLoading(false)
-    }
+      alert('Password updated successfully!')
+      navigate('/dashboard')
+    }, 1500)
   }
 
   return (

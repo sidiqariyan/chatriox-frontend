@@ -1,9 +1,6 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { User, Mail, Lock, Eye, EyeOff, ArrowRight, Shield, Building, Phone, Globe } from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
-import { authHelpers, dbHelpers } from '../lib/supabase';
-import toast from 'react-hot-toast';
+mport React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { User, Mail, Lock, Eye, EyeOff, ArrowRight, Building, Phone, Globe } from 'lucide-react';
 
 interface SignupProps {
   isDarkMode: boolean;
@@ -14,8 +11,6 @@ const Signup: React.FC<SignupProps> = ({ isDarkMode }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { signUp } = useAuth();
-  const navigate = useNavigate();
   
   const [formData, setFormData] = useState({
     // Step 1: Personal Information
@@ -51,29 +46,29 @@ const Signup: React.FC<SignupProps> = ({ isDarkMode }) => {
       // Validate current step
       if (currentStep === 1) {
         if (!formData.firstName || !formData.lastName || !formData.email || !formData.password) {
-          toast.error('Please fill in all required fields');
+          alert('Please fill in all required fields');
           return;
         }
         if (formData.password !== formData.confirmPassword) {
-          toast.error('Passwords do not match');
+          alert('Passwords do not match');
           return;
         }
         if (formData.password.length < 6) {
-          toast.error('Password must be at least 6 characters');
+          alert('Password must be at least 6 characters');
           return;
         }
       }
       
       if (currentStep === 2) {
         if (!formData.companyName || !formData.jobTitle || !formData.industry || !formData.companySize) {
-          toast.error('Please fill in all required fields');
+          alert('Please fill in all required fields');
           return;
         }
       }
       
       if (currentStep === 3) {
         if (!formData.primaryGoal || !formData.monthlyEmailVolume || !formData.budget) {
-          toast.error('Please fill in all required fields');
+          alert('Please fill in all required fields');
           return;
         }
       }
@@ -82,51 +77,18 @@ const Signup: React.FC<SignupProps> = ({ isDarkMode }) => {
     } else {
       // Final signup
       if (!formData.agreeToTerms) {
-        toast.error('Please agree to the Terms of Service and Privacy Policy');
+        alert('Please agree to the Terms of Service and Privacy Policy');
         return;
       }
       
-      await handleFinalSignup();
-    }
-  };
-
-  const handleFinalSignup = async () => {
-    setLoading(true);
-    
-    try {
-      // Prepare user metadata
-      const userData = {
-        first_name: formData.firstName,
-        last_name: formData.lastName,
-        full_name: `${formData.firstName} ${formData.lastName}`,
-        company_name: formData.companyName,
-        job_title: formData.jobTitle,
-        industry: formData.industry,
-        company_size: formData.companySize,
-        phone: formData.phone,
-        website: formData.website,
-        primary_goal: formData.primaryGoal,
-        current_tools: formData.currentTools,
-        monthly_email_volume: formData.monthlyEmailVolume,
-        budget: formData.budget,
-        subscribe_to_updates: formData.subscribeToUpdates
-      };
-
-      const { data, error } = await signUp(formData.email, formData.password, userData);
+      setLoading(true);
       
-      if (error) throw error;
-      
-      if (data.user) {
-        // Create user profile in database
-        await dbHelpers.createUserProfile(data.user.id, userData);
-        
-        toast.success('Account created! Please check your email to verify your account.');
-        navigate('/login');
-      }
-    } catch (error: any) {
-      toast.error(error.message);
-    } finally {
-      setLoading(false);
+      // Simulate API call
+      setTimeout(() => {
+        alert('Account created successfully!');
+        setLoading(false);
+        // You can add navigation logic here
+      }, 2000);
     }
   };
 
@@ -155,32 +117,14 @@ const Signup: React.FC<SignupProps> = ({ isDarkMode }) => {
     }
   };
 
-  const handleSocialSignup = async (provider: 'google' | 'twitter' | 'github' | 'linkedin') => {
-    try {
-      setLoading(true);
-      let result;
-      
-      switch (provider) {
-        case 'google':
-          result = await authHelpers.signInWithGoogle();
-          break;
-        case 'twitter':
-          result = await authHelpers.signInWithTwitter();
-          break;
-        case 'github':
-          result = await authHelpers.signInWithGitHub();
-          break;
-        case 'linkedin':
-          result = await authHelpers.signInWithLinkedIn();
-          break;
-      }
-      
-      if (result.error) throw result.error;
-    } catch (error: any) {
-      toast.error(error.message);
-    } finally {
+  const handleSocialSignup = (provider: 'google' | 'twitter') => {
+    setLoading(true);
+    
+    // Simulate social login
+    setTimeout(() => {
+      alert(`Signing up with ${provider}...`);
       setLoading(false);
-    }
+    }, 1000);
   };
 
   const industries = [
@@ -653,7 +597,6 @@ const Signup: React.FC<SignupProps> = ({ isDarkMode }) => {
       </div>
     </div>
   );
-
   return (
     <div className={`min-h-screen flex items-center justify-center p-4 ${
       isDarkMode 

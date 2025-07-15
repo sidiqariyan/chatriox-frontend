@@ -130,10 +130,13 @@ const Blog: React.FC<BlogProps> = ({ isDarkMode }) => {
               Create New Blog
             </Link>
             
-            <button className="group bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white px-8 py-4 rounded-2xl font-bold transition-all duration-300 hover:scale-105 hover:shadow-xl flex items-center justify-center">
+            <Link
+              to="/blog/create"
+              className="group bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white px-8 py-4 rounded-2xl font-bold transition-all duration-300 hover:scale-105 hover:shadow-xl flex items-center justify-center"
+            >
               <Sparkles className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform duration-300" />
-              AI Blog Generator
-            </button>
+              Advanced AI Generator
+            </Link>
           </div>
         </div>
       </section>

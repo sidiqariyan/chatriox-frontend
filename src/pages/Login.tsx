@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, ArrowRight, Shield } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { authHelpers } from '../lib/supabase';
+// import { authHelpers } from '../lib/supabase';
 import toast from 'react-hot-toast';
 
 interface LoginProps {
@@ -47,48 +47,48 @@ const Login: React.FC<LoginProps> = ({ isDarkMode }) => {
     });
   };
 
-  const handleSocialLogin = async (provider: 'google' | 'twitter' | 'github' | 'linkedin') => {
-    try {
-      setLoading(true);
-      let result;
+  // const handleSocialLogin = async (provider: 'google' | 'twitter' | 'github' | 'linkedin') => {
+  //   try {
+  //     setLoading(true);
+  //     let result;
       
-      switch (provider) {
-        case 'google':
-          result = await authHelpers.signInWithGoogle();
-          break;
-        case 'twitter':
-          result = await authHelpers.signInWithTwitter();
-          break;
-        case 'github':
-          result = await authHelpers.signInWithGitHub();
-          break;
-        case 'linkedin':
-          result = await authHelpers.signInWithLinkedIn();
-          break;
-      }
+  //     switch (provider) {
+  //       case 'google':
+  //         result = await authHelpers.signInWithGoogle();
+  //         break;
+  //       case 'twitter':
+  //         result = await authHelpers.signInWithTwitter();
+  //         break;
+  //       case 'github':
+  //         result = await authHelpers.signInWithGitHub();
+  //         break;
+  //       case 'linkedin':
+  //         result = await authHelpers.signInWithLinkedIn();
+  //         break;
+  //     }
       
-      if (result.error) throw result.error;
-    } catch (error: any) {
-      toast.error(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     if (result.error) throw result.error;
+  //   } catch (error: any) {
+  //     toast.error(error.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  const handleForgotPassword = async () => {
-    if (!formData.email) {
-      toast.error('Please enter your email address first');
-      return;
-    }
+  // const handleForgotPassword = async () => {
+  //   if (!formData.email) {
+  //     toast.error('Please enter your email address first');
+  //     return;
+  //   }
     
-    try {
-      const { error } = await authHelpers.resetPassword(formData.email);
-      if (error) throw error;
-      toast.success('Password reset email sent!');
-    } catch (error: any) {
-      toast.error(error.message);
-    }
-  };
+  //   try {
+  //     const { error } = await authHelpers.resetPassword(formData.email);
+  //     if (error) throw error;
+  //     toast.success('Password reset email sent!');
+  //   } catch (error: any) {
+  //     toast.error(error.message);
+  //   }
+  // };
 
   return (
     <div className={`min-h-screen flex items-center justify-center ${
@@ -221,7 +221,7 @@ const Login: React.FC<LoginProps> = ({ isDarkMode }) => {
                 </span>
               </label>
               <Link
-                onClick={handleForgotPassword}
+                // onClick={handleForgotPassword}
                 className={`text-sm font-medium transition-colors ${
                   isDarkMode 
                     ? 'text-blue-400 hover:text-blue-300' 
@@ -264,7 +264,7 @@ const Login: React.FC<LoginProps> = ({ isDarkMode }) => {
             <div className="grid grid-cols-2 gap-4">
               <button
                 type="button"
-                onClick={() => handleSocialLogin('google')}
+                // onClick={() => handleSocialLogin('google')}
                 disabled={loading}
                 className={`flex items-center justify-center px-4 py-3 rounded-xl border font-medium transition-all duration-300 hover:scale-105 ${
                   isDarkMode 
@@ -282,7 +282,7 @@ const Login: React.FC<LoginProps> = ({ isDarkMode }) => {
               </button>
               <button
                 type="button"
-                onClick={() => handleSocialLogin('twitter')}
+                // onClick={() => handleSocialLogin('twitter')}
                 disabled={loading}
                 className={`flex items-center justify-center px-4 py-3 rounded-xl border font-medium transition-all duration-300 hover:scale-105 ${
                   isDarkMode 
@@ -301,7 +301,7 @@ const Login: React.FC<LoginProps> = ({ isDarkMode }) => {
             <div className="grid grid-cols-2 gap-4 mt-4">
               <button
                 type="button"
-                onClick={() => handleSocialLogin('github')}
+                // onClick={() => handleSocialLogin('github')}
                 disabled={loading}
                 className={`flex items-center justify-center px-4 py-3 rounded-xl border font-medium transition-all duration-300 hover:scale-105 ${
                   isDarkMode 
@@ -316,7 +316,7 @@ const Login: React.FC<LoginProps> = ({ isDarkMode }) => {
               </button>
               <button
                 type="button"
-                onClick={() => handleSocialLogin('linkedin')}
+                // onClick={() => handleSocialLogin('linkedin')}
                 disabled={loading}
                 className={`flex items-center justify-center px-4 py-3 rounded-xl border font-medium transition-all duration-300 hover:scale-105 ${
                   isDarkMode 

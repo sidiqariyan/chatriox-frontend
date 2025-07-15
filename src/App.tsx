@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import { AuthProvider } from './contexts/AuthContext';
-import ProtectedRoute from './components/ProtectedRoute';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Features from './components/Features';
@@ -24,9 +22,6 @@ import PricingPage from './pages/PricingPage';
 import HowItWorksPage from './pages/HowItWorksPage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Dashboard from './pages/Dashboard';
-import AuthCallback from './pages/AuthCallback';
-import ResetPassword from './pages/ResetPassword';
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -58,56 +53,41 @@ function App() {
   );
 
   return (
-    <AuthProvider>
-      <Router>
-        <div className={`min-h-screen transition-colors duration-300 ${
-          isDarkMode ? 'bg-slate-900' : 'bg-white'
-        }`}>
-          <Toaster
-            position="top-right"
-            toastOptions={{
-              duration: 4000,
-              style: {
-                background: isDarkMode ? '#1e293b' : '#ffffff',
-                color: isDarkMode ? '#ffffff' : '#000000',
-                border: isDarkMode ? '1px solid #334155' : '1px solid #e5e7eb',
-              },
-            }}
-          />
-          
-          <Routes>
-            <Route path="/login" element={<Login isDarkMode={isDarkMode} />} />
-            <Route path="/signup" element={<Signup isDarkMode={isDarkMode} />} />
-            <Route path="/auth/callback" element={<AuthCallback />} />
-            <Route path="/reset-password" element={<ResetPassword isDarkMode={isDarkMode} />} />
-            <Route path="/dashboard" element={
-              <ProtectedRoute>
-                <Dashboard isDarkMode={isDarkMode} />
-              </ProtectedRoute>
-            } />
-            <Route path="/*" element={
-              <>
-                <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/about" element={<About isDarkMode={isDarkMode} />} />
-                  <Route path="/services" element={<Services isDarkMode={isDarkMode} />} />
-                  <Route path="/blog" element={<Blog isDarkMode={isDarkMode} />} />
-                  <Route path="/blog/:id" element={<BlogDetail isDarkMode={isDarkMode} />} />
-                  <Route path="/blog/create" element={<BlogCreate isDarkMode={isDarkMode} />} />
-                  <Route path="/blog/edit/:id" element={<BlogEdit isDarkMode={isDarkMode} />} />
-                  <Route path="/privacy-policy" element={<PrivacyPolicy isDarkMode={isDarkMode} />} />
-                  <Route path="/contact" element={<Contact isDarkMode={isDarkMode} />} />
-                  <Route path="/pricing" element={<PricingPage isDarkMode={isDarkMode} />} />
-                  <Route path="/how-it-works" element={<HowItWorksPage isDarkMode={isDarkMode} />} />
-                </Routes>
-                <Footer isDarkMode={isDarkMode} />
-              </>
-            } />
-          </Routes>
-        </div>
-      </Router>
-    </AuthProvider>
+    <Router>
+      <div className={`min-h-screen transition-colors duration-300 ${
+        isDarkMode ? 'bg-slate-900' : 'bg-white'
+      }`}>
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 4000,
+            style: {
+              background: isDarkMode ? '#1e293b' : '#ffffff',
+              color: isDarkMode ? '#ffffff' : '#000000',
+              border: isDarkMode ? '1px solid #334155' : '1px solid #e5e7eb',
+            },
+          }}
+        />
+        
+        <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<About isDarkMode={isDarkMode} />} />
+          <Route path="/services" element={<Services isDarkMode={isDarkMode} />} />
+          <Route path="/blog" element={<Blog isDarkMode={isDarkMode} />} />
+          <Route path="/blog/:id" element={<BlogDetail isDarkMode={isDarkMode} />} />
+          <Route path="/blog/create" element={<BlogCreate isDarkMode={isDarkMode} />} />
+          <Route path="/blog/edit/:id" element={<BlogEdit isDarkMode={isDarkMode} />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy isDarkMode={isDarkMode} />} />
+          <Route path="/contact" element={<Contact isDarkMode={isDarkMode} />} />
+          <Route path="/pricing" element={<PricingPage isDarkMode={isDarkMode} />} />
+          <Route path="/how-it-works" element={<HowItWorksPage isDarkMode={isDarkMode} />} />
+          <Route path="/login" element={<Login isDarkMode={isDarkMode} />} />
+          <Route path="/signup" element={<Signup isDarkMode={isDarkMode} />} />
+        </Routes>
+        <Footer isDarkMode={isDarkMode} />
+      </div>
+    </Router>
   );
 }
 

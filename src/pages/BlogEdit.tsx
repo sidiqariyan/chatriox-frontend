@@ -169,7 +169,15 @@ const BlogEdit: React.FC<BlogEditProps> = ({ isDarkMode }) => {
       return;
     }
 
-    // In a real app, update in database
+    // Update in localStorage for demo
+    const blogs = JSON.parse(localStorage.getItem('blogs') || '[]');
+    const updatedBlogs = blogs.map((blog: any) => 
+      blog.id === parseInt(id!) 
+        ? { ...blog, ...blogData, status, updatedAt: new Date().toISOString() }
+        : blog
+    );
+    localStorage.setItem('blogs', JSON.stringify(updatedBlogs));
+    
     setBlogData(prev => ({ ...prev, status }));
     toast.success(`Blog ${status === 'draft' ? 'saved as draft' : 'updated and published'} successfully!`);
     
@@ -180,7 +188,11 @@ const BlogEdit: React.FC<BlogEditProps> = ({ isDarkMode }) => {
 
   const handleDelete = () => {
     if (window.confirm('Are you sure you want to delete this blog post? This action cannot be undone.')) {
-      // In a real app, delete from database
+      // Delete from localStorage for demo
+      const blogs = JSON.parse(localStorage.getItem('blogs') || '[]');
+      const filteredBlogs = blogs.filter((blog: any) => blog.id !== parseInt(id!));
+      localStorage.setItem('blogs', JSON.stringify(filteredBlogs));
+      
       toast.success('Blog post deleted successfully');
       navigate('/blog');
     }

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, ArrowRight, Shield } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { authHelpers } from '../lib/supabase';
 import toast from 'react-hot-toast';
 
 interface LoginProps {
@@ -17,7 +16,7 @@ const Login: React.FC<LoginProps> = ({ isDarkMode }) => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { signIn } = useAuth();
+  const { signIn } = false;
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {

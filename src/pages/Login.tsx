@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, ArrowRight, Shield } from 'lucide-react';
 
 interface LoginProps {
@@ -14,18 +14,18 @@ const Login: React.FC<LoginProps> = ({ isDarkMode }) => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     
-    // Simulate loading delay
-    setTimeout(() => {
+    try {
+      console.log('Login attempt:', formData.email);
+    } catch (error: any) {
+      console.error('Login error:', error);
+    } finally {
       setLoading(false);
-      // For demo purposes, navigate to dashboard
-      navigate('/dashboard');
-    }, 1000);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,26 +36,14 @@ const Login: React.FC<LoginProps> = ({ isDarkMode }) => {
     });
   };
 
-  const handleSocialLogin = (provider: 'google' | 'twitter' | 'github' | 'linkedin') => {
-    setLoading(true);
-    
-    // Simulate loading delay
-    setTimeout(() => {
-      setLoading(false);
-      // For demo purposes, navigate to dashboard
-      navigate('/dashboard');
-    }, 1000);
+  const handleSocialLogin = (provider: string) => {
+    console.log(`Social login with ${provider}`);
   };
 
   const handleForgotPassword = () => {
-    if (!formData.email) {
-      alert('Please enter your email address first');
-      return;
-    }
-    
-    // For demo purposes, show success message
-    alert('Password reset email sent!');
+    console.log('Forgot password for:', formData.email);
   };
+
 
   return (
     <div className={`min-h-screen flex items-center justify-center ${
@@ -187,8 +175,7 @@ const Login: React.FC<LoginProps> = ({ isDarkMode }) => {
                   Remember me
                 </span>
               </label>
-              <button
-                type="button"
+              <Link
                 onClick={handleForgotPassword}
                 className={`text-sm font-medium transition-colors ${
                   isDarkMode 
@@ -197,7 +184,7 @@ const Login: React.FC<LoginProps> = ({ isDarkMode }) => {
                 }`}
               >
                 Forgot password?
-              </button>
+              </Link>
             </div>
 
             {/* Login Button */}

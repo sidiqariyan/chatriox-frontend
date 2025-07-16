@@ -15,32 +15,12 @@ import {
   Eye, 
   Upload, 
   Image, 
-  Link, 
-  Bold, 
-  Italic, 
-  List, 
-  AlignLeft,
-  AlignCenter,
-  AlignRight,
-  Code,
-  Quote,
-  Hash,
-  Calendar,
-  User,
-  Tag,
-  Globe,
   ArrowLeft,
   Sparkles,
   Wand2,
   Search,
-  TrendingUp,
-  Target,
   Zap,
-  BarChart3,
-  Settings,
-  FileText
 } from 'lucide-react';
-import toast from 'react-hot-toast';
 
 interface BlogCreateProps {
   isDarkMode: boolean;
@@ -160,18 +140,18 @@ const BlogCreate: React.FC<BlogCreateProps> = ({ isDarkMode }) => {
         ...prev,
         featuredImage: imageUrl
       }));
-      toast.success('Featured image uploaded successfully!');
+      console.log('Featured image uploaded successfully!');
     }
   };
 
   const handleSave = (status: 'draft' | 'published') => {
     if (!blogData.title.trim()) {
-      toast.error('Please enter a blog title');
+      console.error('Please enter a blog title');
       return;
     }
 
     if (!blogData.content.trim()) {
-      toast.error('Please add some content to your blog');
+      console.error('Please add some content to your blog');
       return;
     }
 
@@ -188,7 +168,7 @@ const BlogCreate: React.FC<BlogCreateProps> = ({ isDarkMode }) => {
     localStorage.setItem('blogs', JSON.stringify(blogs));
     
     setBlogData(prev => ({ ...prev, status }));
-    toast.success(`Blog ${status === 'draft' ? 'saved as draft' : 'published'} successfully!`);
+    console.log(`Blog ${status === 'draft' ? 'saved as draft' : 'published'} successfully!`);
     
     if (status === 'published') {
       navigate('/blog');
@@ -198,7 +178,7 @@ const BlogCreate: React.FC<BlogCreateProps> = ({ isDarkMode }) => {
   // AI Content Generation Functions
   const handleKeywordResearch = async () => {
     if (!aiTopic.trim()) {
-      toast.error('Please enter a topic for keyword research');
+      console.error('Please enter a topic for keyword research');
       return;
     }
 
@@ -208,9 +188,9 @@ const BlogCreate: React.FC<BlogCreateProps> = ({ isDarkMode }) => {
       setKeywordResearch(keywords);
       setContentConfig(prev => ({ ...prev, topic: aiTopic }));
       setShowKeywordResults(true);
-      toast.success(`Found ${keywords.length} relevant keywords!`);
+      console.log(`Found ${keywords.length} relevant keywords!`);
     } catch (error) {
-      toast.error('Failed to research keywords. Please try again.');
+      console.error('Failed to research keywords. Please try again.');
     } finally {
       setIsResearchingKeywords(false);
     }
@@ -218,7 +198,7 @@ const BlogCreate: React.FC<BlogCreateProps> = ({ isDarkMode }) => {
 
   const handleGenerateContent = async () => {
     if (keywordResearch.length === 0) {
-      toast.error('Please perform keyword research first');
+      console.error('Please perform keyword research first');
       return;
     }
 
@@ -248,9 +228,9 @@ const BlogCreate: React.FC<BlogCreateProps> = ({ isDarkMode }) => {
       }));
       
       setShowAIGenerator(false);
-      toast.success(`Generated ${contentConfig.targetLength}+ word SEO-optimized content!`);
+      console.log(`Generated ${contentConfig.targetLength}+ word SEO-optimized content!`);
     } catch (error) {
-      toast.error('Failed to generate content. Please try again.');
+      console.error('Failed to generate content. Please try again.');
     } finally {
       setIsGeneratingContent(false);
     }

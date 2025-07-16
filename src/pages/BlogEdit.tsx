@@ -12,7 +12,6 @@ import {
   Globe,
   User
 } from 'lucide-react';
-import toast from 'react-hot-toast';
 
 interface BlogEditProps {
   isDarkMode: boolean;
@@ -113,7 +112,7 @@ const BlogEdit: React.FC<BlogEditProps> = ({ isDarkMode }) => {
         setBlogData(mockBlogData);
         setLoading(false);
       } catch (error) {
-        toast.error('Failed to load blog data');
+        console.error('Failed to load blog data');
         navigate('/blog');
       }
     };
@@ -154,18 +153,18 @@ const BlogEdit: React.FC<BlogEditProps> = ({ isDarkMode }) => {
         ...prev,
         featuredImage: imageUrl
       }));
-      toast.success('Featured image updated successfully!');
+      console.log('Featured image updated successfully!');
     }
   };
 
   const handleSave = (status: 'draft' | 'published') => {
     if (!blogData.title.trim()) {
-      toast.error('Please enter a blog title');
+      console.error('Please enter a blog title');
       return;
     }
 
     if (!blogData.content.trim()) {
-      toast.error('Please add some content to your blog');
+      console.error('Please add some content to your blog');
       return;
     }
 
@@ -179,7 +178,7 @@ const BlogEdit: React.FC<BlogEditProps> = ({ isDarkMode }) => {
     localStorage.setItem('blogs', JSON.stringify(updatedBlogs));
     
     setBlogData(prev => ({ ...prev, status }));
-    toast.success(`Blog ${status === 'draft' ? 'saved as draft' : 'updated and published'} successfully!`);
+    console.log(`Blog ${status === 'draft' ? 'saved as draft' : 'updated and published'} successfully!`);
     
     if (status === 'published') {
       navigate('/blog');
@@ -193,7 +192,7 @@ const BlogEdit: React.FC<BlogEditProps> = ({ isDarkMode }) => {
       const filteredBlogs = blogs.filter((blog: any) => blog.id !== parseInt(id!));
       localStorage.setItem('blogs', JSON.stringify(filteredBlogs));
       
-      toast.success('Blog post deleted successfully');
+      console.log('Blog post deleted successfully');
       navigate('/blog');
     }
   };

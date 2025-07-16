@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Features from './components/Features';
@@ -57,18 +56,6 @@ function App() {
       <div className={`min-h-screen transition-colors duration-300 ${
         isDarkMode ? 'bg-slate-900' : 'bg-white'
       }`}>
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            duration: 4000,
-            style: {
-              background: isDarkMode ? '#1e293b' : '#ffffff',
-              color: isDarkMode ? '#ffffff' : '#000000',
-              border: isDarkMode ? '1px solid #334155' : '1px solid #e5e7eb',
-            },
-          }}
-        />
-        
         <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
         <Routes>
           <Route path="/" element={<HomePage />} />

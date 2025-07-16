@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { User, Mail, Lock, Eye, EyeOff, ArrowRight, Building, Phone, Globe } from 'lucide-react';
+import { User, Mail, Lock, Eye, EyeOff, ArrowRight, Shield, Building, Phone, Globe } from 'lucide-react';
 
 interface SignupProps {
   isDarkMode: boolean;
@@ -11,7 +11,7 @@ const Signup: React.FC<SignupProps> = ({ isDarkMode }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     // Step 1: Personal Information
     firstName: '',
@@ -46,29 +46,29 @@ const Signup: React.FC<SignupProps> = ({ isDarkMode }) => {
       // Validate current step
       if (currentStep === 1) {
         if (!formData.firstName || !formData.lastName || !formData.email || !formData.password) {
-          alert('Please fill in all required fields');
+          console.error('Please fill in all required fields');
           return;
         }
         if (formData.password !== formData.confirmPassword) {
-          alert('Passwords do not match');
+          console.error('Passwords do not match');
           return;
         }
         if (formData.password.length < 6) {
-          alert('Password must be at least 6 characters');
+          console.error('Password must be at least 6 characters');
           return;
         }
       }
       
       if (currentStep === 2) {
         if (!formData.companyName || !formData.jobTitle || !formData.industry || !formData.companySize) {
-          alert('Please fill in all required fields');
+          console.error('Please fill in all required fields');
           return;
         }
       }
       
       if (currentStep === 3) {
         if (!formData.primaryGoal || !formData.monthlyEmailVolume || !formData.budget) {
-          alert('Please fill in all required fields');
+          console.error('Please fill in all required fields');
           return;
         }
       }
@@ -77,19 +77,37 @@ const Signup: React.FC<SignupProps> = ({ isDarkMode }) => {
     } else {
       // Final signup
       if (!formData.agreeToTerms) {
-        alert('Please agree to the Terms of Service and Privacy Policy');
+        console.error('Please agree to the Terms of Service and Privacy Policy');
         return;
       }
       
-      setLoading(true);
-      
-      // Simulate API call
-      setTimeout(() => {
-        alert('Account created successfully!');
-        setLoading(false);
-        // You can add navigation logic here
-      }, 2000);
+      await handleFinalSignup();
     }
+  };
+
+  const handleFinalSignup = async () => {
+    setLoading(true);
+    
+      // Prepare user metadata
+      const userData = {
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        full_name: `${formData.firstName} ${formData.lastName}`,
+        company_name: formData.companyName,
+        job_title: formData.jobTitle,
+        industry: formData.industry,
+        company_size: formData.companySize,
+        phone: formData.phone,
+        website: formData.website,
+        primary_goal: formData.primaryGoal,
+        current_tools: formData.currentTools,
+        monthly_email_volume: formData.monthlyEmailVolume,
+        budget: formData.budget,
+        subscribe_to_updates: formData.subscribeToUpdates
+      };
+
+      console.log('Signup data:', userData);
+      setLoading(false);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -117,14 +135,8 @@ const Signup: React.FC<SignupProps> = ({ isDarkMode }) => {
     }
   };
 
-  const handleSocialSignup = (provider: 'google' | 'twitter') => {
-    setLoading(true);
-    
-    // Simulate social login
-    setTimeout(() => {
-      alert(`Signing up with ${provider}...`);
-      setLoading(false);
-    }, 1000);
+  const handleSocialSignup = (provider: string) => {
+    console.log(`Social signup with ${provider}`);
   };
 
   const industries = [
@@ -597,6 +609,7 @@ const Signup: React.FC<SignupProps> = ({ isDarkMode }) => {
       </div>
     </div>
   );
+
   return (
     <div className={`min-h-screen flex items-center justify-center p-4 ${
       isDarkMode 

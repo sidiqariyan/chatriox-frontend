@@ -20,6 +20,7 @@ import {
   Wand2,
   Search,
   Zap,
+  Globe
 } from 'lucide-react';
 
 interface BlogCreateProps {
